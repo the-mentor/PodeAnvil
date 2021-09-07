@@ -15,6 +15,9 @@ function New-PodeAnvilApp {
     .PARAMETER OutputPath
     The output path for electron application.
 
+    .PARAMETER Port
+    The port pode web interface will listen to (important if running multiple instances for pode web or multiple PodeAnvil application)
+
     #>
 
     param(
@@ -22,6 +25,7 @@ function New-PodeAnvilApp {
         [Parameter(Mandatory)]$Name,
         [Parameter()]$OutputPath,
         [Parameter()][ValidateSet("pwsh", "powershell")]$PowerShellExecutable,
+        [Parameter()][ValidateRange(10000 , 65535)][int]$Port = 19876,
         [Switch]$Force
     )
 
@@ -114,7 +118,7 @@ function New-PodeAnvilApp {
 
         #Modify Web Server Config
         $WebServerConfig.powershell_exec = $PowerShellExecutable
-        $WebServerConfig.port = 9876
+        $WebServerConfig.port = $Port
         $WebServerConfig.pode_script_filename = $ps1file.Name
 
         #Create Web Server Config JSON file
