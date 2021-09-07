@@ -1,0 +1,7 @@
+{
+	"powershell_exec":"powershell",
+	"pode_script_filename":"pode.web.ps1",
+	"address":"localhost",
+	"port":"9876",
+	"protocol":"http"
+}
