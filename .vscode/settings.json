@@ -1,0 +1,21 @@
+{
+    "powershell.codeFormatting.preset": "Custom",
+    "powershell.codeFormatting.addWhitespaceAroundPipe": true,
+    "powershell.codeFormatting.alignPropertyValuePairs": true,
+    "powershell.codeFormatting.autoCorrectAliases": true,
+    "powershell.codeFormatting.ignoreOneLineBlock": true,
+    "powershell.codeFormatting.newLineAfterCloseBrace": true,
+    "powershell.codeFormatting.newLineAfterOpenBrace": true,
+    "powershell.codeFormatting.openBraceOnSameLine": true,
+    "powershell.codeFormatting.pipelineIndentationStyle": "NoIndentation",
+    "powershell.codeFormatting.trimWhitespaceAroundPipe": true,
+    "powershell.codeFormatting.useCorrectCasing": true,
+    "powershell.codeFormatting.whitespaceAfterSeparator": true,
+    "powershell.codeFormatting.whitespaceAroundOperator": true,
+    "powershell.codeFormatting.whitespaceBeforeOpenBrace": true,
+    "powershell.codeFormatting.whitespaceBeforeOpenParen": true,
+    "powershell.codeFormatting.whitespaceBetweenParameters": true,
+    "powershell.codeFormatting.whitespaceInsideBrace": false,
+    "powershell.integratedConsole.focusConsoleOnExecute": false,
+    "files.trimTrailingWhitespace": true
+}
