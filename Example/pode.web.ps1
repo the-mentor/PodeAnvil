@@ -1,12 +1,16 @@
+############## START - DO NOT CHANGE THIS SECTION ##############
+#This Line enables the app to run on computers that do not have Pode and Pode.Web Installed
 $Env:PSModulePath = $Env:PSModulePath + ";$PSScriptRoot"
 
 Import-Module -Name Pode.Web
 
 $WebServerConfig = Get-Content -Path "$PSScriptRoot\webserver.json" | ConvertFrom-Json
 
+############## END - DO NOT CHANGE THIS SECTION ##############
+
 Start-PodeServer -DisableTermination {
     Add-PodeEndpoint -Address $($WebServerConfig.address) -Port $($WebServerConfig.port) -Protocol $($WebServerConfig.protocol)
-    
+
 	# set the use of the pode.web templates
     Use-PodeWebTemplates -Title 'PodeAnvile - Electron Test' -Theme Light
 
