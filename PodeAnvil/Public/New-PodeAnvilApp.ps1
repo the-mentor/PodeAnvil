@@ -31,6 +31,8 @@ function New-PodeAnvilApp {
 
     $ModulePath = (Get-Item $PSScriptRoot).parent
 
+    Confirm-PodeAnvilDependencies
+
     if ($IsLinux -or $IsMacOS) {
         $PowerShellExecutable = 'pwsh'
     }
@@ -42,8 +44,8 @@ function New-PodeAnvilApp {
 
     #check if index.js exists
     $IndexJsPath = (Join-Path -Path $ModulePath.FullName -ChildPath "index.js")
-    if (Test-Path -Path $IndexJsPath -ErrorAction Stop) {
-
+    if (!(Test-Path -Path $IndexJsPath -ErrorAction Stop)) {
+        throw "Index JS file doesnt exist in this path: $IndexJsPath"
     }
 
     #check if webserver.json exists and read its content
@@ -61,16 +63,6 @@ function New-PodeAnvilApp {
     }
     else {
         throw
-    }
-
-    $Npx = Get-Command npx
-    if ($null -eq $Npx) {
-        throw "NodeJS is required to run New-PodeAnvilApp you can download it here: https://nodejs.org"
-    }
-
-    $Git = Get-Command git
-    if ($null -eq $Git) {
-        throw "Git is required to run New-PodeAnvilApp."
     }
 
     if ($null -eq $OutputPath) {
@@ -92,12 +84,9 @@ function New-PodeAnvilApp {
         New-Item -Path $OutputPath -ItemType Directory | Out-Null
     }
 
-
-
     Push-Location $OutputPath
 
-    Write-Verbose "Installing: create-electron-app@latest"
-    npm install create-electron-app #--global
+    Install-PodeAnvilNpmPackages
 
     Write-Verbose "Creating electron app: $Name"
     npx create-electron-app $Name
@@ -123,9 +112,6 @@ function New-PodeAnvilApp {
     #Create Web Server Config JSON file
     $WebServerConfig | ConvertTo-Json | Set-Content -Path "$ElectronSourceDir\webserver.json" -Force
 
-    Write-Verbose "Building electron app with forge"
-    npm install @electron-forge/cli
-
     Set-Location (Join-Path -Path $OutputPath -ChildPath $Name)
-    electron-forge make
+    npm run make
 }
