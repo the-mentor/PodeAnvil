@@ -9,7 +9,6 @@ function New-PodeAnvilApp {
     .PARAMETER Path
     The path to the .ps1 file you want to base the app on.
 
-    .PARAMETER Name
     .PARAMETER AppName
     The name of the electron app.
 
@@ -94,7 +93,7 @@ function New-PodeAnvilApp {
 
     Pop-Location
 
-    $ElectronSourceDir = [IO.Path]::Combine($OutputPath, $Name, 'src')
+    $ElectronSourceDir = [IO.Path]::Combine($OutputPath, $AppName, 'src')
     Write-Verbose "ElectronSourceDir: $ElectronSourceDir"
 
     Write-Verbose "Copy Pode PS1 File $ps1file"
