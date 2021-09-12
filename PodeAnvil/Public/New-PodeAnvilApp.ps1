@@ -10,6 +10,7 @@ function New-PodeAnvilApp {
     The path to the .ps1 file you want to base the app on.
 
     .PARAMETER Name
+    .PARAMETER AppName
     The name of the electron app.
 
     .PARAMETER OutputPath
@@ -22,7 +23,7 @@ function New-PodeAnvilApp {
 
     param(
         [Parameter(Mandatory)]$Path,
-        [Parameter(Mandatory)]$Name,
+        [Parameter(Mandatory)]$AppName,
         [Parameter()]$OutputPath,
         [Parameter()][ValidateSet("pwsh", "powershell")]$PowerShellExecutable,
         [Parameter()][ValidateRange(10000 , 65535)][int]$Port = 19876,
@@ -74,9 +75,9 @@ function New-PodeAnvilApp {
         Write-Verbose "Output path resolved to: $OutputPath"
     }
 
-    if (Test-Path (Join-Path $OutputPath $Name)) {
+    if (Test-Path (Join-Path $OutputPath $AppName)) {
         Write-Verbose "Output path exists. Removing it."
-        Remove-Item (Join-Path $OutputPath $Name) -Force -Recurse
+        Remove-Item (Join-Path $OutputPath $AppName) -Force -Recurse
     }
 
     if (-not (Test-Path $OutputPath)) {
@@ -88,8 +89,8 @@ function New-PodeAnvilApp {
 
     Install-PodeAnvilNpmPackages
 
-    Write-Verbose "Creating electron app: $Name"
-    npx create-electron-app $Name
+    Write-Verbose "Creating electron app: $AppName"
+    npx create-electron-app $AppName
 
     Pop-Location
 
@@ -112,7 +113,7 @@ function New-PodeAnvilApp {
     #Create Web Server Config JSON file
     $WebServerConfig | ConvertTo-Json | Set-Content -Path "$ElectronSourceDir\webserver.json" -Force
 
-    Set-Location (Join-Path -Path $OutputPath -ChildPath $Name)
+    Set-Location (Join-Path -Path $OutputPath -ChildPath $AppName)
 
     Invoke-PodeAnvilAppBuild
 
