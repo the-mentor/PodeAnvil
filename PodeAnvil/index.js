@@ -4,7 +4,7 @@ const fs = require('fs');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
-  app.quit();
+	app.quit();
 }
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -15,14 +15,14 @@ const createWindow = () => {
 	// Create the browser window.
 	//mainWindow = new BrowserWindow({width: 800, height: 600});
 	mainWindow = new BrowserWindow();
-	
-	//PowerShell/Pode/Pode.Web Related Config 
+
+	//PowerShell/Pode/Pode.Web Related Config
 	var webserver_json_path = path.join(__dirname, 'webserver.json');
-	let webserver_config = JSON.parse(fs.readFileSync(webserver_json_path)); //read webserver.json and parse it to use for configuration later 
-	
+	let webserver_config = JSON.parse(fs.readFileSync(webserver_json_path)); //read webserver.json and parse it to use for configuration later
+
 	var powershell_exec = webserver_config.powershell_exec;
 	var pode_script_filename = webserver_config.pode_script_filename;
-	
+
 	var podeProtocol = webserver_config.protocol;
 	var podeAddress = webserver_config.address;
 	var podePort = webserver_config.port;
@@ -30,22 +30,22 @@ const createWindow = () => {
 	//Pode.Web Process Creation
 	var child_process = require('child_process');
 	var powershell_file_path = path.join(__dirname, pode_script_filename);
-	child = child_process.spawn(powershell_exec, ['-NoProfile',"-File", powershell_file_path]);
+	child = child_process.spawn(powershell_exec, ['-NoProfile', "-File", powershell_file_path]);
 
 	mainWindow.webContents.on('did-fail-load',
 		function (event, errorCode, errorDescription) {
 			console.log('Page failed to load (' + errorCode + '). The server is probably not yet running. Trying again in 100ms.');
-			setTimeout(function() {
+			setTimeout(function () {
 				mainWindow.webContents.reload();
 			}, 100);
 		}
 	);
 
-	setTimeout(function() {
+	setTimeout(function () {
 		// and load the index.html of the app.
 		//mainWindow.loadURL('http://127.0.0.1:' + podePort)
 		mainWindow.loadURL(podeProtocol + '://' + podeAddress + ':' + podePort)
-		}, 1000
+	}, 1000
 	);
 
 	// Emitted when the window is closed.
