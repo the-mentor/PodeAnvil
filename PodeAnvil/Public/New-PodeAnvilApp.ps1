@@ -113,5 +113,7 @@ function New-PodeAnvilApp {
     $WebServerConfig | ConvertTo-Json | Set-Content -Path "$ElectronSourceDir\webserver.json" -Force
 
     Set-Location (Join-Path -Path $OutputPath -ChildPath $Name)
-    npm run make
+
+    Invoke-PodeAnvilAppBuild
+
 }
